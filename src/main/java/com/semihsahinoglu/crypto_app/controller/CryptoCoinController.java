@@ -73,7 +73,7 @@ public class CryptoCoinController {
     public ResponseEntity<Map<String, Object>> getIndicators(
             @RequestParam String symbol,
             @RequestParam(required = false, defaultValue = "5") int period,
-            Pageable pageable
+            @PageableDefault(size = 30, sort = "openTime", direction = Sort.Direction.DESC) Pageable pageable
     ) {
         Page<CryptoCoin> coins = cryptoCoinService.getCryptoCoinsBySymbol(symbol, pageable);
         Map<String, Object> indicators = cryptoIndicatorService.calculateIndicators(coins.getContent(), period);
