@@ -51,17 +51,20 @@ public class CryptoCoinController {
     }
 
     @GetMapping("/get/{symbol}")
-    public ResponseEntity<Page<CryptoCoin>> getCryptoCoin(@PathVariable String symbol, @PageableDefault(size = 30, sort = "openTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CryptoCoin> coins = cryptoCoinService.getCryptoCoinsBySymbol(symbol, pageable);
+    public ResponseEntity<Page<CryptoCoin>> getCryptoCoin(@PathVariable String symbol,
+                                                          @RequestParam(required = false, defaultValue = "1d") String interval,
+                                                          @PageableDefault(size = 30, sort = "openTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        Page<CryptoCoin> coins = cryptoCoinService.getCryptoCoinsBySymbol(symbol, interval, pageable);
 
         return ResponseEntity.ok().body(coins);
     }
 
     @GetMapping("/get/{symbol}/with-indicators")
     public ResponseEntity<CryptoCoinWithIndicatorsDTO> getCryptoCoinWithIndicators(@PathVariable String symbol,
+                                                                                   @RequestParam(required = false, defaultValue = "1d") String interval,
                                                                                    @RequestParam(required = false, defaultValue = "5") int period,
                                                                                    @PageableDefault(size = 30, sort = "openTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        Page<CryptoCoin> coins = cryptoCoinService.getCryptoCoinsBySymbol(symbol, pageable);
+        Page<CryptoCoin> coins = cryptoCoinService.getCryptoCoinsBySymbol(symbol, interval, pageable);
         Map<String, Object> indicators = cryptoIndicatorService.calculateIndicators(coins.getContent(), period);
 
         CryptoCoinWithIndicatorsDTO cryptoCoinWithIndicatorsDTO = new CryptoCoinWithIndicatorsDTO(coins.getContent(), indicators);
@@ -72,10 +75,11 @@ public class CryptoCoinController {
     @GetMapping("/get/indicators")
     public ResponseEntity<Map<String, Object>> getIndicators(
             @RequestParam String symbol,
+            @RequestParam(required = false, defaultValue = "1d") String interval,
             @RequestParam(required = false, defaultValue = "5") int period,
             @PageableDefault(size = 30, sort = "openTime", direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        Page<CryptoCoin> coins = cryptoCoinService.getCryptoCoinsBySymbol(symbol, pageable);
+        Page<CryptoCoin> coins = cryptoCoinService.getCryptoCoinsBySymbol(symbol, interval, pageable);
         Map<String, Object> indicators = cryptoIndicatorService.calculateIndicators(coins.getContent(), period);
 
         return ResponseEntity.ok().body(indicators);

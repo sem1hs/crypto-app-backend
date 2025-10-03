@@ -46,6 +46,7 @@ public class CryptoCoinService {
                     .numberOfTrades(((Number) kline.get(8)).intValue())
                     .takerBuyBaseAssetVolume(CryptoCoinHelper.toBigDecimal(kline.get(9)))
                     .takerBuyQuoteAssetVolume(CryptoCoinHelper.toBigDecimal(kline.get(10)))
+                    .interval(interval)
                     .build();
 
             coins.add(entity);
@@ -54,8 +55,8 @@ public class CryptoCoinService {
         return coins;
     }
 
-    public Page<CryptoCoin> getCryptoCoinsBySymbol(String symbol, Pageable pageable) {
-        return cryptoCoinRepository.findAllBySymbol(symbol, pageable);
+    public Page<CryptoCoin> getCryptoCoinsBySymbol(String symbol, String interval, Pageable pageable) {
+        return cryptoCoinRepository.findAllBySymbolAndInterval(symbol, interval, pageable);
     }
 
     public Page<CryptoCoin> getAllCryptoCoins(Pageable pageable) {

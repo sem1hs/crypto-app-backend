@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public interface ICryptoCoinRepository extends JpaRepository<CryptoCoin, Long> {
     boolean existsBySymbolAndOpenTime(String symbol, LocalDateTime openTime);
 
-    Page<CryptoCoin> findAllBySymbol(String symbol, Pageable pageable);
+    Page<CryptoCoin> findAllBySymbolAndInterval(String symbol, String interval, Pageable pageable);
 
     void deleteAllBySymbol(String symbol);
 }
