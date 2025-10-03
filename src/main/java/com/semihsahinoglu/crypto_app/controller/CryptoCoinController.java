@@ -29,8 +29,8 @@ public class CryptoCoinController {
     public ResponseEntity<List<CryptoCoin>> fetchCryptoData(@RequestParam String symbol,
                                                             @RequestParam String interval,
                                                             @RequestParam(required = false) String startDateTime,
-                                                            @RequestParam(required = false) String endDateTime,
-                                                            Pageable pageable) {
+                                                            @RequestParam(required = false) String endDateTime
+    ) {
         ZoneId zone = ZoneId.systemDefault();
 
         LocalDateTime start = LocalDateTime.parse(startDateTime.trim());

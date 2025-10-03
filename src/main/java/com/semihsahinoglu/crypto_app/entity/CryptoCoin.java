@@ -55,4 +55,7 @@ public class CryptoCoin {
 
     @Column(name = "taker_buy_quote_asset_volume")
     private BigDecimal takerBuyQuoteAssetVolume;
+
+    @Column(name = "interval")
+    private String interval;
 }
